@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<% include head.ejs %>
+</head>
+<body>
+	<section id="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="box-settings box-register">
+						<div class="wrap-login100">
+							<form class="validate-form" method="POST" action="/users/register">
+								<h2 class="title-screen">
+									Register a new account
+								</h2>
+								<span> <%= infoUser %> </span>
+								<div class="form-group">
+									<input type="text" name="usernameRegister" placeholder="Username" class="form-control" value="<%= infoUser.usernameRegister %>">
+								</div>
+								<div class="form-group">
+									<input type="text" name="emailRegister" placeholder="Email" class="form-control" value="<%= infoUser.emailRegister %>">
+								</div>
+								<div class="form-group">
+									<input type="password" name="passwordRegister" placeholder="Password" class="form-control" value="<%= infoUser.passwordRegister %>">
+								</div>
+								<% if (RegisterMessage != 'undefined' ? RegisterMessage  : '' ) { %>
+									<div class="alert alert-<%= typeStatus %>" role="alert">
+									  <p><%= RegisterMessage %></p>
+									</div>
+								<% } %>
+								<div class="form-group">
+									<button class="btn-login btn">
+										Register
+									</button>
+								</div>
+							</form>
+						</div>						
+					</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="box-settings box-login">
+						<div class="wrap-login100">
+							<form class="validate-form" method="POST" action="/users/login">
+								<h2 class="title-screen">
+									Access your account
+								</h2>
+								<div class="form-group">
+									<input type="text" name="usernameLogin" placeholder="Username" class="form-control" value="<%= infoUser.usernameLogin %>">
+								</div>
+
+								<div class="form-group">
+									<input type="password" name="passwordLogin" placeholder="Password" class="form-control" value="<%= infoUser.passwordLogin %>">
+								</div>
+								<% if (loginMessage != 'undefined' ? loginMessage  : '' ) { %>
+									<div class="alert alert-<%= typeStatus %>" role="alert">
+									  <p><%= loginMessage %></p>
+									</div>
+								<% } %>
+								<div class="form-group">
+									<button class="btn-login btn">
+										Login
+									</button>
+								</div>
+
+								<div class="text-forgot">
+									<a href="/users/forgot-password">
+										Forgot Password? Click here to retrive your access!
+									</a>
+								</div>
+							</form>
+						</div>						
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+</html>
