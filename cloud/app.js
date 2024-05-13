@@ -1,5 +1,9 @@
-// Require the module
-var bodyParser = require("body-parser");
+// Require the necessary modules
+var express = require('express');
+var bodyParser = require('body-parser');
+
+// Create an Express application
+var app = express();
 
 // Set up the views directory
 app.set('views', __dirname + '/views');
@@ -9,6 +13,13 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true})); 
 
-//Require the routes.js file
+// Handle GET requests to the root URL
+app.get('/', function(req, res) {
+  console.log('Received a GET request to the root URL');
+  res.send('Hello, world!');
+});
 
-require('./routes');
+// Start the server on port 3000
+app.listen(3000, function() {
+  console.log('App is listening on port 3000');
+});
