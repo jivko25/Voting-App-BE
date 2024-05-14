@@ -66,7 +66,7 @@ app.patch("/proposals/:id", async function (req, res) {
   }
 });
 
-app.get("/proposals", async function (req, res) {
+app.get("/proposals/post", async function (req, res) {
   //TODO: change user id ('beee89a1-0c38-44a6-9640-e2fc8d8f4ded') to be taken from the request
   const { data, error } = await supabase
     .from('proposals')
