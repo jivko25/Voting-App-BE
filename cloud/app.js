@@ -88,6 +88,8 @@ app.patch("/proposals/:id", async function (req, res) {
     .update(req.body)
     .eq('proposal_id', req.params.id)
 
+    console.log(req.body, data)
+
   if (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while updating proposal", status: "error", code: 500 });
