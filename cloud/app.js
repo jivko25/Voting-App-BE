@@ -86,7 +86,7 @@ app.patch("/proposals/:id", async function (req, res) {
   const { data, error } = await supabase
     .from('proposals')
     .update(req.body)
-    .eq('id', req.params.id)
+    .eq('proposal_id', req.params.id)
 
   if (error) {
     console.error(error);
