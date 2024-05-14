@@ -1,14 +1,14 @@
 // Require the necessary modules
 var express = require("express");
 var bodyParser = require("body-parser");
+const cors = require('cors');
+
 var { createClient } = require("@supabase/supabase-js");
 
 // Create an Express application
 var app = express();
 
-// Set up the views directory
-app.set("views", __dirname + "/views");
-app.set("view engine", "ejs");
+app.use(cors());
 
 // Set up the Body Parser to your App
 app.use(bodyParser.json());
