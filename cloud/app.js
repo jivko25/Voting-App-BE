@@ -29,7 +29,6 @@ app.get("/proposals", async function (req, res) {
     .from('proposals')
     .select('*')
 
-    console.log('test test test')
 
   if (error) {
     console.error(error);
