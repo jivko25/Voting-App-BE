@@ -10,9 +10,9 @@ var app = express();
 
 app.use(cors());
 
-// Set up the Body Parser to your App
+// // Set up the Body Parser to your App
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
 
 // Initialize Supabase
 var supabaseUrl = "https://ljudvicwjqokilajymhm.supabase.co";
