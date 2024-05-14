@@ -20,8 +20,8 @@ var supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIs
 var supabase = createClient(supabaseUrl, supabaseKey);
 
 // Handle GET requests to the root URL
-app.get("/", function (req, res) {
-  res.json({ message: "Hello, world!", status: "success", code: 200 });
+app.post("/", function (req, res) {
+  res.json({ message: req.body, status: "success", code: 200 });
 });
 
 app.get("/proposals", async function (req, res) {
