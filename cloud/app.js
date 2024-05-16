@@ -29,7 +29,6 @@ app.get("/proposals", async function (req, res) {
     .from('proposals')
     .select('*')
 
-
   if (error) {
     console.error(error);
     res.status(500).json({ message: "An error occurred while fetching proposals", status: "error", code: 500 });
