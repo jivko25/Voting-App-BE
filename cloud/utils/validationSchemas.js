@@ -2,12 +2,17 @@ const Joi = require("joi");
 
 // Write schemas for validation of data, for more info - https://joi.dev/api/?v=17.13.0
 
-export const loginSchema = joi.object({
-  email: joi.string().email().required(),
-  password: joi.string().required(),
+const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().required(),
 });
 
-export const registerSchema = joi.object({
-  email: joi.string().email().required(),
-  password: joi.string().min(8).required(),
+const registerSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(8).required(),
 });
+
+module.exports = {
+  loginSchema,
+  registerSchema,
+};
