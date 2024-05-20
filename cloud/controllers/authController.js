@@ -32,4 +32,34 @@ router.post("/login", async (req, res) => {
     return res.status(500).json({ message: "An unexpected error occurred" });
   }
 });
+
+router.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+  const { error } = registerSchema.validate({ email, password });
+
+  if (error) {
+    const errorMessage = error?.details[0].message;
+    return res.status(400).json({ message: errorMessage });
+  }
+  try {
+    const { data, error } = await authServices.signUp(email, password);
+    if (error) {
+      const errMessage = error?.message;
+      return res.status(400).json({ message: errMessage });
+    }
+    const { user, session } = data;
+    const signUpResponse = {
+      id: user?.id,
+      email: user?.email,
+      role: user?.role,
+      access_token: session?.access_token,
+      refresh_token: session?.refresh_token,
+      expires_in: session?.expires_in,
+    };
+    return res.status(201).json(signUpResponse);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "An unexpected error occurred" });
+  }
+});
 module.exports = router;
