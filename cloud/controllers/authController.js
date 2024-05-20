@@ -1,7 +1,6 @@
 const router = require("express").Router();
 const authServices = require("../services/authService");
 const { loginSchema, registerSchema } = require("../utils/validationSchemas");
-const e = require("express");
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
