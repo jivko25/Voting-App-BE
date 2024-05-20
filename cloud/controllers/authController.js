@@ -73,7 +73,6 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: errMessage });
     }
     const { user, session } = data;
-    console.log(user);
     const signUpResponse = {
       id: user?.id,
       email: user?.email,
