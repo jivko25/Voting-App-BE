@@ -13,9 +13,14 @@ router.post("/login", async (req, res) => {
   }
   try {
     const { data, error } = await authServices.signIn(email, password);
-    console.log(error);
+
     if (error) {
-      return res.status(400).json({ message: "Invalid credentials" });
+      if (error?.name === "AuthRetryableFetchError") {
+        return res
+          .status(503)
+          .json({ message: "Request failed due to a network issue!" });
+      }
+      return res.status(400).json({ message: "Invalid credentials!" });
     }
     const { user, session } = data;
     const signInResponse = {
@@ -34,16 +39,34 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("/register", async (req, res) => {
-  const { email, password } = req.body;
-  const { error } = registerSchema.validate({ email, password });
+  const { email, password, firstName, lastName } = req.body;
+  const { error } = registerSchema.validate({
+    email,
+    password,
+    firstName,
+    lastName,
+  });
 
   if (error) {
     const errorMessage = error?.details[0].message;
     return res.status(400).json({ message: errorMessage });
   }
   try {
-    const { data, error } = await authServices.signUp(email, password);
+    const userMetadata = {
+      first_name: firstName,
+      last_name: lastName,
+    };
+    const { data, error } = await authServices.signUp(
+      email,
+      password,
+      userMetadata
+    );
     if (error) {
+      if (error?.name === "AuthRetryableFetchError") {
+        return res
+          .status(503)
+          .json({ message: "Request failed due to a network issue!" });
+      }
       const errMessage = error?.message;
       return res.status(400).json({ message: errMessage });
     }
