@@ -7,10 +7,14 @@ async function signIn(email, password) {
   }));
 }
 
-async function signUp(email, password) {
+async function signUp(email, password, metaData = {}) {
+  console.log(metaData);
   return await supabase.auth.signUp({
     email,
     password,
+    options: {
+      data: metaData,
+    },
   });
 }
 module.exports = {
