@@ -30,6 +30,8 @@ router.post("/login", async (req, res) => {
       access_token: session?.access_token,
       refresh_token: session?.refresh_token,
       expires_in: session?.expires_in,
+      firstName: user?.user_metadata?.first_name,
+      lastName: user?.user_metadata?.last_name,
     };
     return res.status(200).json(signInResponse);
   } catch (err) {
@@ -71,6 +73,7 @@ router.post("/register", async (req, res) => {
       return res.status(400).json({ message: errMessage });
     }
     const { user, session } = data;
+    console.log(user);
     const signUpResponse = {
       id: user?.id,
       email: user?.email,
@@ -78,6 +81,8 @@ router.post("/register", async (req, res) => {
       access_token: session?.access_token,
       refresh_token: session?.refresh_token,
       expires_in: session?.expires_in,
+      firstName: user?.user_metadata?.first_name,
+      lastName: user?.user_metadata?.last_name,
     };
     return res.status(201).json(signUpResponse);
   } catch (err) {
