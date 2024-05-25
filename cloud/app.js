@@ -2,7 +2,7 @@
 const express = require('express');
 const expressConfig = require('./configs/expressConfig');
 const routes = require('./routes');
-const PORT = 3000;
+const PORT = process.env.PORT;
 
 // Create an Express application
 const app = express();
