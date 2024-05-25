@@ -1,6 +1,11 @@
 const router = require("express").Router();
 const authServices = require("../services/authService");
-const { loginSchema, registerSchema } = require("../utils/validationSchemas");
+const {
+  loginSchema,
+  registerSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} = require("../utils/validationSchemas");
 
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -83,6 +88,75 @@ router.post("/register", async (req, res) => {
       lastName: user?.user_metadata?.last_name,
     };
     return res.status(201).json(signUpResponse);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "An unexpected error occurred" });
+  }
+});
+
+router.post("/forgotpassword", async (req, res) => {
+  const { email } = req.body;
+
+  const { error } = forgotPasswordSchema.validate({ email });
+
+  if (error) {
+    const errorMessage = error?.details[0].message;
+    return res.status(400).json({ message: errorMessage });
+  }
+
+  try {
+    const { data, error } = await authServices.forgotPassword(email);
+    if (error) {
+      if (error?.name === "AuthRetryableFetchError") {
+        return res
+          .status(503)
+          .json({ message: "Request failed due to a network issue!" });
+      }
+      const errMessage = error?.message;
+      return res.status(400).json({ message: errMessage });
+    }
+
+    return res.status(200).end();
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ message: "An unexpected error occurred" });
+  }
+});
+
+router.post("/resetpassword", async (req, res) => {
+  const { authCode, newPassword } = req.body;
+
+  const { error } = resetPasswordSchema.validate({ newPassword });
+
+  if (error) {
+    console.log(error)
+    const errorMessage = error?.details[0].message;
+    return res.status(400).json({ message: errorMessage });
+  }
+
+  try {
+    // Step 1: Create a session with the auth code
+    const { data: sessionData, error: sessionError } =
+      await authServices.createSessionWithAuthCode(authCode);
+
+    if (sessionError) {
+      console.error("Session creation failed:", sessionError);
+      return res.status(401).json({ message: "Invalid or expired token" });
+    }
+
+    // Step 2: Reset the password
+    const { error } = await authServices.resetPassword(newPassword);
+    if (error) {
+      if (error?.name === "AuthRetryableFetchError") {
+        return res
+          .status(503)
+          .json({ message: "Request failed due to a network issue!" });
+      }
+      const errMessage = error?.message;
+      return res.status(400).json({ message: errMessage });
+    }
+
+    return res.status(200).end();
   } catch (err) {
     console.error(err);
     return res.status(500).json({ message: "An unexpected error occurred" });
