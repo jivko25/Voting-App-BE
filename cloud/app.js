@@ -1,11 +1,12 @@
 // Require the necessary modules
-const express = require('express');
-const expressConfig = require('./configs/expressConfig');
-const routes = require('./routes');
-const PORT = 3000;
+const express = require("express");
+const expressConfig = require("./configs/expressConfig");
+const routes = require("./routes");
+const PORT = 5000;
 
 // Create an Express application
 const app = express();
+
 expressConfig(app);
 
 app.use(routes);
