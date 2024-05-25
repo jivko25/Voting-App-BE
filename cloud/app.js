@@ -1,4 +1,5 @@
 // Require the necessary modules
+require('dotenv').config();
 const express = require('express');
 const expressConfig = require('./configs/expressConfig');
 const routes = require('./routes');
