@@ -7,6 +7,7 @@ const PORT = process.env.PORT;
 
 // Create an Express application
 const app = express();
+
 expressConfig(app);
 
 app.use(routes);
